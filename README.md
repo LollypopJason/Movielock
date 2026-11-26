@@ -26,9 +26,12 @@ pip install anthropic       # only for the AI writer
 # 1. Try the whole pipeline with no game files (synthetic placeholder audio, storyboard preview)
 movielock demo demo --render
 
-# 2. Set up your assets (once): export heroes / maps / voice lines, then index the voice lines
-python tools/import_sounds.py path/to/exported_sounds --copy
+# 2. Get assets (once). Quickest: download from the community Deadlock API
+movielock fetch-voices haze infernus          # voice lines (MP3) -> assets/voices + index.yaml
+movielock fetch-models haze infernus          # rigged GLB models with an idle pose (optional)
+pip install faster-whisper && movielock transcribe haze infernus   # fill in transcripts locally
 movielock library
+#    ...or export higher-quality models/animations yourself (docs/ASSETS.md)
 
 # 3. Write, check and render
 export ANTHROPIC_API_KEY=...            # for the AI writer
@@ -132,8 +135,13 @@ Full guide: **[docs/ASSETS.md](docs/ASSETS.md)**.
   or Valve closecaption file.
 * Export models, maps and animations with **Source 2 Viewer** (ValveResourceFormat) to GLB.
 * `.gitignore` keeps models, maps, HDRIs, sounds and renders out of git. Never commit them.
-* deadlock-api.com has no voice-line or transcript endpoint (checked for this project).
-  `tools/fetch_hero_names.py` uses its hero list to map class names like `hero_atlas` to names.
+* **Downloading instead of exporting:** `movielock fetch-voices <heroes>` pulls voice lines from the
+  community [Deadlock API](https://deadlock-api.com) (`/v1/assets/sounds`, about 100,000 lines in total, so
+  name heroes and use `--match`/`--limit`). `movielock fetch-models <heroes>` pulls its rigged GLBs, which have
+  one idle/select pose and no mouth shapes, so lip sync falls back to a small head nod. They are recorded in a
+  git-ignored `assets/library.local.yaml`. Neither source has transcripts: `movielock transcribe` fills them
+  with local speech-to-text (faster-whisper/Whisper). deadlock.wiki has transcribed lines, but it blocks
+  scripted access, so copy what you need into a CSV by hand and import it with `--transcripts`.
 
 ## Rendering
 
@@ -213,6 +221,9 @@ movielock convert script.lock script.yaml        # or .json, or back; --to to pr
 movielock plan script.lock -o plan.json
 movielock library                                 # what's installed / missing
 movielock import-sounds <folder> [--transcripts x.csv] [--captions cc.txt] [--copy]
+movielock fetch-voices <heroes...> [--match REGEX] [--exclude REGEX] [--limit N] [--dry-run] [--all]
+movielock fetch-models <heroes...> [--pose idle|hero_select] [--all]
+movielock transcribe [<heroes...>] [--limit N]
 movielock demo [dir] [--render]
 movielock web [--port 5005]
 ```
@@ -233,13 +244,13 @@ optional and commented.
 ## Development
 
 ```bash
-pip install -e .[dev,ai]
+pip install -e .[dev,ai]          # [transcribe] adds faster-whisper
 pytest
 ```
 
 Tests cover the parser round trip (Lockscript ↔ YAML ↔ JSON), validation messages, planner timings and
-staging, camera presets, lip-sync fallbacks, the voice importer, the AI writer (with a fake client), the
-web API, and an end-to-end storyboard render with generated test audio that checks the output with
+staging, camera presets, lip-sync fallbacks, the voice importer, the Deadlock API downloaders and transcription (against a
+fake HTTP layer), the AI writer (with a fake client), the web API, and an end-to-end storyboard render with generated test audio that checks the output with
 ffprobe. `blender/render_shot.py` was also run under the `bpy` module (Blender 4.2 and 5.0) with a
 rigged test figure, to check NLA strips, action slots, shape keys and the jaw fallback.
 
@@ -259,4 +270,5 @@ rigged test figure, to check NLA strips, action slots, shape keys and the jaw fa
 [Blender](https://www.blender.org/), [FFmpeg](https://ffmpeg.org/),
 [Rhubarb Lip Sync](https://github.com/DanielSWolf/rhubarb-lip-sync) by Daniel Wolf,
 [Source 2 Viewer / ValveResourceFormat](https://valveresourceformat.github.io/),
-the community [Deadlock API](https://deadlock-api.com). Deadlock is a trademark of Valve Corporation.
+the community [Deadlock API](https://deadlock-api.com) (hero data, sound and model CDN),
+[faster-whisper](https://github.com/SYSTRAN/faster-whisper). Deadlock is a trademark of Valve Corporation.

@@ -76,10 +76,9 @@ def library_listing(library: Library, focus_heroes: set[str] | None = None, max_
                                for s in library.music.values()]
     out += ["", "## Voice lines (id | hero | transcript)"]
     voices = [v for v in library.voices.values() if v.file.is_file()] or list(library.voices.values())
-    if focus_heroes:
-        voices.sort(key=lambda v: (v.hero not in focus_heroes, v.hero, v.id))
-    else:
-        voices.sort(key=lambda v: (v.hero, v.id))
+    # heroes named in the idea first, and within them lines whose transcript is known
+    focus = focus_heroes or set()
+    voices.sort(key=lambda v: (bool(focus) and v.hero not in focus, not v.transcript, v.hero, v.id))
     if not voices:
         out.append("(none imported yet - you may only use text-to-speech lines)")
     for v in voices[:max_lines]:
@@ -89,7 +88,8 @@ def library_listing(library: Library, focus_heroes: set[str] | None = None, max_
     return "\n".join(out)
 
 
-def system_prompt(library: Library, tts_enabled: bool, focus_heroes: set[str] | None = None) -> str:
+def system_prompt(library: Library, tts_enabled: bool, focus_heroes: set[str] | None = None,
+                  max_lines: int = 2500) -> str:
     tts_rule = ("Text-to-speech (`?`) is available, but prefer real voice lines (`!`)."
                 if tts_enabled else
                 "Text-to-speech is OFF: `?` lines become silent captions. Use real voice lines (`!`) for "
@@ -104,7 +104,9 @@ def system_prompt(library: Library, tts_enabled: bool, focus_heroes: set[str] | 
         "Reply with exactly one ```lockscript code block containing the whole script, then at most two "
         "sentences about your choices. Use only hero ids, animation names, map ids, sound ids, music ids "
         "and voice line ids from the library below.",
-        library_listing(library, focus_heroes),
+        "Voice lines without a transcript: guess what they say from the id (e.g. *_kill_* lines react to a "
+        "kill) and keep them for reactions, not for key story beats.",
+        library_listing(library, focus_heroes, max_lines),
     ])
 
 
@@ -192,7 +194,8 @@ def write_script(idea: str, library: Library, cfg: Config, *, fmt: str | None = 
         raise MovielockError("describe your idea first")
     anthropic, client = _client(cfg)
     tts = bool(cfg["tts"].get("enabled"))
-    system = system_prompt(library, tts, _mentioned_heroes(idea, library))
+    system = system_prompt(library, tts, _mentioned_heroes(idea, library),
+                           int(cfg["writer"].get("max_voice_lines", 2500)))
     request = f"Idea: {idea}"
     if fmt:
         request += f"\nFormat: {fmt}"

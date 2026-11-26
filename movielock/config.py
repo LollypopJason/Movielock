@@ -34,6 +34,7 @@ DEFAULTS: dict[str, Any] = {
         "effort": "medium",           # low | medium | high | xhigh | max
         "fallbacks": "default",       # server-side refusal fallback; set to false to turn off
         "repair_attempts": 1,
+        "max_voice_lines": 2500,      # how many voice lines the writer sees (named heroes first)
     },
     "timing": {
         "gap": 0.25,                  # silence between consecutive lines
@@ -73,6 +74,19 @@ DEFAULTS: dict[str, Any] = {
         # OFF by default: cloning a voice actor without consent is legally risky.
         "voice_reference": False,
         "references": {},             # hero -> path of reference clip (only used if voice_reference)
+    },
+    "deadlock_api": {
+        "base_url": "https://api.deadlock-api.com",
+        "cache_hours": 24,            # re-download the sound/model indexes after this long
+        "workers": 4,                 # parallel downloads (be nice to the community CDN)
+        "exclude": "^emote/",         # skip effort grunts by default (fetch-voices --exclude "" keeps them)
+    },
+    "transcribe": {
+        "engine": "auto",             # auto | faster-whisper | whisper | command
+        "model": "small",             # Whisper model size
+        "language": "en",
+        # engine "command": run once per file without a shell; stdout is the transcript. Placeholder: {file}
+        "command": "",
     },
     "web": {"host": "127.0.0.1", "port": 5005},
 }

@@ -4,6 +4,42 @@ Movielock never ships game files. You export heroes, maps, animations and voice 
 **your own Deadlock install** and put them in `assets/`, which git ignores (see `.gitignore`).
 Don't commit or redistribute them, and check Valve's terms before you publish videos.
 
+## 0. Quickest route: download from the community Deadlock API
+
+[deadlock-api.com](https://deadlock-api.com) hosts the game's sounds and some hero models on a public CDN.
+Movielock can download them for you:
+
+```bash
+movielock fetch-voices haze infernus --dry-run     # how many files?
+movielock fetch-voices haze infernus               # MP3s -> assets/voices/<hero>/..., then indexed
+movielock fetch-voices haze --match "kill|taunt"   # only some lines (regex on the file path)
+movielock fetch-models haze infernus               # GLB -> assets/heroes/<hero>/idle.glb (or hero_select.glb)
+pip install faster-whisper
+movielock transcribe haze infernus                 # fill in transcripts with local speech-to-text
+```
+
+* Voice lines come from `/v1/assets/sounds` (`vo/<class name>/...`). There are about 2,000 to 5,000 per hero
+  and about 100,000 in total, so download only the heroes you need. Effort grunts (`emote/`) are skipped by
+  default (`deadlock_api.exclude` in `movielock.yaml`, or `--exclude ""`). IDs use your library's hero id
+  (`inferno_kill_01` becomes `infernus_kill_01`). The sound and model indexes are cached for a day, and
+  downloads use 4 parallel connections. Please keep it that way, since it's a free community service.
+* Models come from `/v1/assets/models` and are rigged GLBs with a single idle or hero-select pose.
+  They have **no talking animation, no mouth shape keys and no jaw bone**, so `fetch-models` sets
+  `jaw_bone: head` with a small `jaw_open` (the head nods along with the speech). It writes this to
+  `assets/library.local.yaml` (git-ignored, merged over `library.yaml`), so your own edits stay intact.
+  For real lip sync and more animations, export the model yourself (below) and remove the entry
+  from `library.local.yaml`.
+* **Transcripts** aren't served anywhere a script can fetch them: the API has none, and deadlock.wiki
+  (which lists lines with text) puts its pages behind a bot challenge. `movielock transcribe` runs
+  [faster-whisper](https://github.com/SYSTRAN/faster-whisper) or Whisper locally (or any command, see
+  `transcribe` in `movielock.yaml`) on lines without a transcript and saves the text in `index.yaml`.
+  You can also copy lines from the wiki into a CSV by hand and import it with `--transcripts`.
+
+The rest of this guide covers exporting from your own install, which gives full-quality models,
+all animations and facial shapes.
+
+## Exporting with Source 2 Viewer
+
 The tool for this is **Source 2 Viewer** (ValveResourceFormat, "VRF"): <https://valveresourceformat.github.io/>.
 It opens Source 2 package files (`.vpk`), previews models, animations and sounds, and exports
 them to glTF / WAV. Menu names below are from recent versions and may differ slightly in yours.
@@ -136,13 +172,10 @@ This writes `assets/voices/index.yaml` (id, hero, file, transcript). Importing a
 the existing index. Use `--replace` to start over.
 
 **Transcripts matter.** The AI writer builds scenes around what the lines say, and captions show
-the transcript. Lines without one still work, but the writer can only guess from the id. There is
-no public transcript download, so fill gaps in the CSV yourself or use a speech-to-text tool
-offline.
+the transcript. Lines without one still work, but the writer can only guess from the id
+(`haze_ally_abrams_killed_in_lane_01` says a lot). Fill gaps with `movielock transcribe` or a CSV.
 
-About the community API: deadlock-api.com has hero, item and map data (and hero names, used by
-`tools/fetch_hero_names.py`), but no sound files or voice-line transcripts. So voice lines must
-come from your install.
+Or skip the export and use `movielock fetch-voices` (section 0).
 
 ## 5. Sound effects and music
 

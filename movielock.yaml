@@ -22,6 +22,7 @@ writer:                       # AI script writer (needs: pip install anthropic, 
   max_tokens: 16000
   fallbacks: default          # if the model declines, the API retries on a fallback model; false = off
   repair_attempts: 1          # invalid scripts are sent back with the errors this many times
+  max_voice_lines: 2500       # voice lines listed for the writer (heroes named in the idea first)
 
 timing:
   lead: 0.15                  # wait before the first line of a shot
@@ -62,6 +63,18 @@ tts:
   # Cloning a voice actor's voice without their consent is legally risky; private experiments only.
   voice_reference: false
   references: {}
+
+deadlock_api:                 # community API used by fetch-voices / fetch-models
+  base_url: https://api.deadlock-api.com
+  cache_hours: 24             # re-download the sound/model indexes after this long
+  workers: 4                  # parallel downloads; please keep this small
+  exclude: "^emote/"          # skip effort grunts; fetch-voices --exclude "" keeps them
+
+transcribe:                   # local speech-to-text for missing transcripts (movielock transcribe)
+  engine: auto                # auto | faster-whisper | whisper | command
+  model: small
+  language: en
+  command: ""                 # engine "command": e.g. "mytool {file}", prints the transcript
 
 web:
   host: 127.0.0.1

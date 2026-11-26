@@ -55,6 +55,18 @@ def slug(text: str) -> str:
     return s or "line"
 
 
+def voice_id(stem: str, hero) -> str:
+    """haze_taunt_01 -> haze_taunt_01; inferno_kill_01 (game class name) -> infernus_kill_01."""
+    vid = slug(stem)
+    prefixes = sorted({hero.id, *(slug(a) for a in hero.aliases)}, key=len, reverse=True)
+    for prefix in prefixes:
+        short = prefix[5:] if prefix.startswith("hero_") else prefix
+        for p in (prefix, short):
+            if p and (vid == p or vid.startswith(p + "_")):
+                return hero.id + vid[len(p):]
+    return f"{hero.id}_{vid}"
+
+
 def load_transcripts_csv(path: Path) -> dict[str, str]:
     """Read a CSV with a key column (id/file/name/filename) and a text column (transcript/text/caption)."""
     out: dict[str, str] = {}
@@ -155,9 +167,7 @@ def import_sounds(source: Path, library: Library, voices_dir: Path, *, transcrip
             rel = _rel(f_ref, voices_dir)
             if rel in known_files:
                 continue
-            vid = slug(f.stem)
-            if not vid.startswith(hero):
-                vid = f"{hero}_{vid}"
+            vid = voice_id(f.stem, library.heroes[hero])
             if vid in entries:
                 base, n = vid, 2
                 while f"{base}_{n}" in entries:

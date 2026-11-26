@@ -27,10 +27,10 @@ def test_import_folder(tmp_path, demo_library):
     assert report.added == 3
     assert report.skipped_folders == {"mystery_guy": 1}
     index = load_voice_index(voices)
-    assert set(index) == {"haze_taunt_01", "haze_kill_line_3", "infernus_inferno_laugh"}
+    assert set(index) == {"haze_taunt_01", "haze_kill_line_3", "infernus_laugh"}
     assert index["haze_taunt_01"].transcript == "Placeholder taunt."
-    assert index["infernus_inferno_laugh"].transcript == "Ha ha."
-    assert index["infernus_inferno_laugh"].hero == "infernus"
+    assert index["infernus_laugh"].transcript == "Ha ha."
+    assert index["infernus_laugh"].hero == "infernus"
     assert index["haze_kill_line_3"].tags == ["kills"]
     assert (voices / "haze" / "kills" / "Kill Line 3.wav").is_file()
     raw = yaml.safe_load((voices / "index.yaml").read_text())

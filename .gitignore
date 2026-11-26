@@ -39,3 +39,7 @@ venv/
 .pytest_cache/
 build/
 dist/
+
+# Downloaded / local library overrides
+assets/library.local.yaml
+assets/hero_names.json

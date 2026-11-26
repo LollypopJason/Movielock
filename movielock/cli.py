@@ -1,4 +1,5 @@
-"""Command line: movielock write | validate | render | convert | plan | library | import-sounds | demo | web"""
+"""Command line: write | validate | render | convert | plan | library | import-sounds | fetch-voices |
+fetch-models | transcribe | demo | web"""
 
 from __future__ import annotations
 
@@ -127,6 +128,51 @@ def cmd_import(args) -> int:
     return 0
 
 
+def cmd_fetch_voices(args) -> int:
+    from .deadlock_api import fetch_voices
+    from .importer import import_sounds
+    cfg = _cfg(args)
+    library = load_library(cfg.assets_dir, cfg.voices_dir)
+    if not args.heroes and not args.all:
+        print("name the heroes to download (e.g. `movielock fetch-voices haze infernus`) or use --all",
+              file=sys.stderr)
+        return 2
+    report = fetch_voices(cfg, library, args.heroes or None, match=args.match, exclude=args.exclude,
+                          limit=args.limit, dry_run=args.dry_run)
+    print("\n".join(report.lines()))
+    if args.dry_run:
+        print(f"dry run: would download {report.planned} files")
+        return 0
+    imported = import_sounds(cfg.voices_dir, library, cfg.voices_dir, merge=True)
+    print("\n".join(imported.lines()))
+    print("transcripts: run `movielock transcribe` (local speech-to-text) so the AI writer and captions "
+          "know what each line says")
+    return 1 if report.failed else 0
+
+
+def cmd_fetch_models(args) -> int:
+    from .deadlock_api import fetch_models
+    cfg = _cfg(args)
+    library = load_library(cfg.assets_dir, cfg.voices_dir)
+    if not args.heroes and not args.all:
+        print("name the heroes (e.g. `movielock fetch-models haze infernus`) or use --all", file=sys.stderr)
+        return 2
+    got = fetch_models(cfg, library, args.heroes or None, pose=args.pose)
+    print(f"{len(got)} model(s) recorded in {cfg.assets_dir / 'library.local.yaml'}")
+    return 0
+
+
+def cmd_transcribe(args) -> int:
+    from .transcribe import make_transcriber, transcribe_missing
+    cfg = _cfg(args)
+    library = load_library(cfg.assets_dir, cfg.voices_dir)
+    engine, fn = make_transcriber(cfg)
+    print(f"transcribing with {engine} ...")
+    n = transcribe_missing(library, cfg.voices_dir, fn, heroes=args.heroes or None, limit=args.limit)
+    print(f"filled {n} transcript(s) in {cfg.voices_dir / 'index.yaml'}")
+    return 0
+
+
 def cmd_demo(args) -> int:
     from .demo import build_demo
     root = Path(args.dir)
@@ -202,6 +248,26 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--copy", action="store_true")
     s.add_argument("--replace", action="store_true")
     s.set_defaults(func=cmd_import)
+
+    s = sub.add_parser("fetch-voices", help="download hero voice lines from the community Deadlock API")
+    s.add_argument("heroes", nargs="*", help="hero ids, names or class names")
+    s.add_argument("--all", action="store_true", help="every hero (tens of thousands of files)")
+    s.add_argument("--match", help="only lines whose path matches this regex (e.g. 'kill|taunt')")
+    s.add_argument("--exclude", help="skip lines whose path matches this regex (e.g. '^emote/')")
+    s.add_argument("--limit", type=int, help="at most this many lines per hero")
+    s.add_argument("--dry-run", action="store_true")
+    s.set_defaults(func=cmd_fetch_voices)
+
+    s = sub.add_parser("fetch-models", help="download hero models (GLB) from the community Deadlock API")
+    s.add_argument("heroes", nargs="*")
+    s.add_argument("--all", action="store_true")
+    s.add_argument("--pose", default="idle", help="idle (default) or hero_select")
+    s.set_defaults(func=cmd_fetch_models)
+
+    s = sub.add_parser("transcribe", help="fill missing voice-line transcripts with local speech-to-text")
+    s.add_argument("heroes", nargs="*")
+    s.add_argument("--limit", type=int)
+    s.set_defaults(func=cmd_transcribe)
 
     s = sub.add_parser("demo", help="create a demo project with synthetic audio (no game files needed)")
     s.add_argument("dir", nargs="?", default="demo")

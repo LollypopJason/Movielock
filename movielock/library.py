@@ -152,6 +152,9 @@ def load_library(assets_dir: Path, voices_dir: Path | None = None) -> Library:
     if not lib_file.is_file():
         raise MovielockError(f"asset library not found: {lib_file}")
     raw = yaml.safe_load(lib_file.read_text(encoding="utf-8")) or {}
+    local = assets_dir / "library.local.yaml"
+    if local.is_file():
+        raw = merge_overrides(raw, yaml.safe_load(local.read_text(encoding="utf-8")) or {})
 
     heroes = {}
     for hid, h in (raw.get("heroes") or {}).items():
@@ -203,6 +206,27 @@ def load_library(assets_dir: Path, voices_dir: Path | None = None) -> Library:
     voices_dir = Path(voices_dir) if voices_dir else assets_dir / "voices"
     voices = load_voice_index(voices_dir)
     return Library(heroes, maps, sound_table("sounds"), sound_table("music"), voices, lib_file)
+
+
+REPLACED_KEYS = {"animations", "visemes"}
+
+
+def merge_overrides(base: dict, override: dict) -> dict:
+    """Merge library.local.yaml over library.yaml: per entry, keys are replaced (animation and
+    viseme maps as a whole); new entries are added."""
+    out = dict(base)
+    for section, entries in (override or {}).items():
+        if not isinstance(entries, dict):
+            out[section] = entries
+            continue
+        merged = dict(out.get(section) or {})
+        for key, value in entries.items():
+            if isinstance(value, dict) and isinstance(merged.get(key), dict):
+                merged[key] = {**merged[key], **value}
+            else:
+                merged[key] = value
+        out[section] = merged
+    return out
 
 
 def load_voice_index(voices_dir: Path) -> dict[str, VoiceLine]:

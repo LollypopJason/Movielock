@@ -6,9 +6,8 @@
 The importer uses assets/hero_names.json to recognise sound folders named after the game's
 internal class names (e.g. hero_atlas -> Abrams) that aren't in library.yaml aliases yet.
 
-About sounds: as of this writing deadlock-api.com does NOT offer voice lines, sound files or
-voice-line transcripts (its assets API serves heroes, items, map data, images and models), so
-voice lines must be exported from your own game install (see docs/ASSETS.md).
+Voice lines and models: use `movielock fetch-voices` / `movielock fetch-models`, which download
+them from the same API. It has no voice-line transcripts; see `movielock transcribe`.
 """
 
 import argparse

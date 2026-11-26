@@ -47,29 +47,53 @@ defaults:
     X: mouth_rest          # silence
 
 heroes:
-  abrams:    {name: Abrams,     model: heroes/abrams/abrams.glb,       height: 2.05, color: "#9c5b3b", aliases: [hero_atlas, atlas],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  bebop:     {name: Bebop,      model: heroes/bebop/bebop.glb,         height: 2.10, color: "#c9a227", aliases: [hero_bebop],             animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  dynamo:    {name: Dynamo,     model: heroes/dynamo/dynamo.glb,       height: 1.85, color: "#5867c4", aliases: [hero_dynamo],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  grey_talon: {name: Grey Talon, model: heroes/grey_talon/grey_talon.glb, height: 1.85, color: "#4f7b6b", aliases: [hero_orion, orion, greytalon], animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  haze:      {name: Haze,       model: heroes/haze/haze.glb,           height: 1.72, color: "#7b5ea7", aliases: [hero_haze],              animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  infernus:  {name: Infernus,   model: heroes/infernus/infernus.glb,   height: 1.90, color: "#d2552b", aliases: [hero_inferno, inferno],  animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  ivy:       {name: Ivy,        model: heroes/ivy/ivy.glb,             height: 1.60, color: "#6fae4a", aliases: [hero_tengu, tengu],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  kelvin:    {name: Kelvin,     model: heroes/kelvin/kelvin.glb,       height: 1.95, color: "#5fb3d9", aliases: [hero_kelvin],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  lady_geist: {name: Lady Geist, model: heroes/lady_geist/lady_geist.glb, height: 1.78, color: "#a83a5b", aliases: [hero_ghost, ghost, geist], animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  lash:      {name: Lash,       model: heroes/lash/lash.glb,           height: 1.88, color: "#8a6d3b", aliases: [hero_lash],              animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  mcginnis:  {name: McGinnis,   model: heroes/mcginnis/mcginnis.glb,   height: 1.70, color: "#b07a3f", aliases: [hero_forge, forge],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  mirage:    {name: Mirage,     model: heroes/mirage/mirage.glb,       height: 1.86, color: "#c98b4a", aliases: [hero_mirage],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  paradox:   {name: Paradox,    model: heroes/paradox/paradox.glb,     height: 1.75, color: "#7d3fa0", aliases: [hero_chrono, chrono],    animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  pocket:    {name: Pocket,     model: heroes/pocket/pocket.glb,       height: 1.50, color: "#3f6fb0", aliases: [hero_synth, synth],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  seven:     {name: Seven,      model: heroes/seven/seven.glb,         height: 1.90, color: "#3fb0a0", aliases: [hero_gigawatt, gigawatt], animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  shiv:      {name: Shiv,       model: heroes/shiv/shiv.glb,           height: 1.85, color: "#b03f3f", aliases: [hero_shiv],              animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  vindicta:  {name: Vindicta,   model: heroes/vindicta/vindicta.glb,   height: 1.78, color: "#4a4a6a", aliases: [hero_hornet, hornet],    animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  viscous:   {name: Viscous,    model: heroes/viscous/viscous.glb,     height: 1.60, color: "#5fc46f", aliases: [hero_viscous],           animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  warden:    {name: Warden,     model: heroes/warden/warden.glb,       height: 1.92, color: "#6b6b8a", aliases: [hero_warden],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  wraith:    {name: Wraith,     model: heroes/wraith/wraith.glb,       height: 1.76, color: "#5a3f7d", aliases: [hero_wraith],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  yamato:    {name: Yamato,     model: heroes/yamato/yamato.glb,       height: 1.65, color: "#c4485a", aliases: [hero_yamato],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
-  # Add more heroes the same way. Class names (aliases) are what the game uses internally;
-  # if the importer doesn't recognise a sound folder, add the folder name to aliases.
+  abrams:        {name: Abrams, model: heroes/abrams/abrams.glb, height: 2.05, color: "#2092AE", aliases: [hero_atlas, atlas], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  apollo:        {name: Apollo, model: heroes/apollo/apollo.glb, height: 1.80, color: "#FF3333", aliases: [hero_fencer, fencer], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  baba:          {name: Baba, model: heroes/baba/baba.glb, height: 1.80, color: "#895672", aliases: [hero_baba], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  bebop:         {name: Bebop, model: heroes/bebop/bebop.glb, height: 2.10, color: "#9F4734", aliases: [hero_bebop], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  billy:         {name: Billy, model: heroes/billy/billy.glb, height: 1.80, color: "#D4AD0E", aliases: [hero_punkgoat, punkgoat], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  calico:        {name: Calico, model: heroes/calico/calico.glb, height: 1.80, color: "#572798", aliases: [hero_nano, nano], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  celeste:       {name: Celeste, model: heroes/celeste/celeste.glb, height: 1.80, color: "#BBA9E1", aliases: [hero_unicorn, unicorn], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  deadman_danny: {name: "Deadman Danny", model: heroes/deadman_danny/deadman_danny.glb, height: 1.80, color: "#CE8D2A", aliases: [hero_deadpack, deadpack], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  drifter:       {name: Drifter, model: heroes/drifter/drifter.glb, height: 1.80, color: "#9D2C2B", aliases: [hero_drifter], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  dynamo:        {name: Dynamo, model: heroes/dynamo/dynamo.glb, height: 1.85, color: "#D0B945", aliases: [hero_dynamo], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  graves:        {name: Graves, model: heroes/graves/graves.glb, height: 1.80, color: "#D9F334", aliases: [hero_necro, necro], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  grey_talon:    {name: "Grey Talon", model: heroes/grey_talon/grey_talon.glb, height: 1.85, color: "#5EB083", aliases: [hero_orion, orion, greytalon], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  haze:          {name: Haze, model: heroes/haze/haze.glb, height: 1.72, color: "#AC6133", aliases: [hero_haze], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  holliday:      {name: Holliday, model: heroes/holliday/holliday.glb, height: 1.80, color: "#A35A1B", aliases: [hero_astro, astro], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  infernus:      {name: Infernus, model: heroes/infernus/infernus.glb, height: 1.90, color: "#C93C26", aliases: [hero_inferno, inferno], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  ivy:           {name: Ivy, model: heroes/ivy/ivy.glb, height: 1.60, color: "#9D8CA9", aliases: [hero_tengu, tengu], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  kelvin:        {name: Kelvin, model: heroes/kelvin/kelvin.glb, height: 1.95, color: "#74ABBC", aliases: [hero_kelvin], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  lady_geist:    {name: "Lady Geist", model: heroes/lady_geist/lady_geist.glb, height: 1.78, color: "#218440", aliases: [hero_ghost, ghost, geist], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  lash:          {name: Lash, model: heroes/lash/lash.glb, height: 1.88, color: "#4174BB", aliases: [hero_lash], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  mcginnis:      {name: McGinnis, model: heroes/mcginnis/mcginnis.glb, height: 1.70, color: "#23549D", aliases: [hero_forge, forge], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  mina:          {name: Mina, model: heroes/mina/mina.glb, height: 1.80, color: "#A9171E", aliases: [hero_vampirebat, vampirebat], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  mirage:        {name: Mirage, model: heroes/mirage/mirage.glb, height: 1.86, color: "#6A2E68", aliases: [hero_mirage], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  mo_krill:      {name: "Mo & Krill", model: heroes/mo_krill/mo_krill.glb, height: 1.80, color: "#C58428", aliases: [hero_krill, krill], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  nurse_harrow:  {name: "Nurse Harrow", model: heroes/nurse_harrow/nurse_harrow.glb, height: 1.80, color: "#55C9BA", aliases: [hero_nurse, nurse], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  paige:         {name: Paige, model: heroes/paige/paige.glb, height: 1.80, color: "#258F63", aliases: [hero_bookworm, bookworm], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  paradox:       {name: Paradox, model: heroes/paradox/paradox.glb, height: 1.75, color: "#983952", aliases: [hero_chrono, chrono], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  pocket:        {name: Pocket, model: heroes/pocket/pocket.glb, height: 1.50, color: "#858617", aliases: [hero_synth, synth], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  rat_king:      {name: "Rat King", model: heroes/rat_king/rat_king.glb, height: 1.80, color: "#733033", aliases: [hero_ratking, ratking], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  rem:           {name: Rem, model: heroes/rem/rem.glb, height: 1.80, color: "#5383D1", aliases: [hero_familiar, familiar], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  seven:         {name: Seven, model: heroes/seven/seven.glb, height: 1.90, color: "#CC861E", aliases: [hero_gigawatt, gigawatt], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  shiv:          {name: Shiv, model: heroes/shiv/shiv.glb, height: 1.85, color: "#E52A68", aliases: [hero_shiv], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  silver:        {name: Silver, model: heroes/silver/silver.glb, height: 1.80, color: "#BFBC9F", aliases: [hero_werewolf, werewolf], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  sinclair:      {name: Sinclair, model: heroes/sinclair/sinclair.glb, height: 1.80, color: "#6B6B6B", aliases: [hero_magician, magician], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  solomon:       {name: Solomon, model: heroes/solomon/solomon.glb, height: 1.80, color: "#AA9E7E", aliases: [hero_chessmaster, chessmaster], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  doorman:       {name: "The Doorman", model: heroes/doorman/doorman.glb, height: 1.80, color: "#B77528", aliases: [hero_doorman], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  venator:       {name: Venator, model: heroes/venator/venator.glb, height: 1.80, color: "#BD3599", aliases: [hero_priest, priest], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  victor:        {name: Victor, model: heroes/victor/victor.glb, height: 1.80, color: "#658B6F", aliases: [hero_frank, frank], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  vindicta:      {name: Vindicta, model: heroes/vindicta/vindicta.glb, height: 1.78, color: "#A2C7E5", aliases: [hero_hornet, hornet], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  violet:        {name: Violet, model: heroes/violet/violet.glb, height: 1.80, color: "#653cbc", aliases: [hero_artist, artist], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  viscous:       {name: Viscous, model: heroes/viscous/viscous.glb, height: 1.60, color: "#319826", aliases: [hero_viscous], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  vyper:         {name: Vyper, model: heroes/vyper/vyper.glb, height: 1.80, color: "#A7AD00", aliases: [hero_viper, viper], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  warden:        {name: Warden, model: heroes/warden/warden.glb, height: 1.92, color: "#4D68A3", aliases: [hero_warden], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  wraith:        {name: Wraith, model: heroes/wraith/wraith.glb, height: 1.76, color: "#944D78", aliases: [hero_wraith], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  yamato:        {name: Yamato, model: heroes/yamato/yamato.glb, height: 1.65, color: "#625789", aliases: [hero_yamato], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  # All 44 heroes from the community Deadlock API (names, class names, UI colours). Heights other than
+  # the first batch are a 1.8 m guess: measure your model and fix them. Add new heroes the same way;
+  # aliases are the game's internal class names (sound folders, models) used by the importers.
 
 maps:
   studio:
