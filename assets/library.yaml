@@ -15,7 +15,8 @@
 #               "idle" and "talk" are used automatically; others are used with "name ~ anim"
 #   visemes     Rhubarb mouth shape (A-H, X) -> shape key name, list of names, or {name: weight}
 #   jaw_bone    fallback when the model has no mouth shape keys: this bone is rotated to open the jaw
-#   jaw_open    jaw rotation in degrees for a fully open mouth (D)
+#   jaw_open    jaw rotation in degrees for a fully open mouth (D); negative to open the other way
+#   jaw_axis    local bone axis for the jaw rotation: X (default), Y or Z
 #
 # The action names below are placeholders: open your exported model in Blender, look at the
 # Action list (Dope Sheet > Action Editor) and put the real names here.

@@ -28,6 +28,7 @@ class Hero:
     visemes: dict[str, Any] = field(default_factory=dict)       # Rhubarb shape -> shape key(s)
     jaw_bone: str | None = None
     jaw_open: float = 18.0                                     # degrees for a fully open mouth
+    jaw_axis: str = "X"                                        # local bone axis the jaw rotates around
     aliases: list[str] = field(default_factory=list)
 
     def to_plan(self) -> dict:
@@ -36,7 +37,7 @@ class Hero:
             "model_exists": bool(self.model and self.model.is_file()),
             "scale": self.scale, "height": self.height, "yaw_offset": self.yaw_offset,
             "color": self.color, "animations": self.animations, "visemes": self.visemes,
-            "jaw_bone": self.jaw_bone, "jaw_open": self.jaw_open,
+            "jaw_bone": self.jaw_bone, "jaw_open": self.jaw_open, "jaw_axis": self.jaw_axis,
         }
 
 
@@ -172,6 +173,7 @@ def load_library(assets_dir: Path, voices_dir: Path | None = None) -> Library:
             visemes={str(k): v for k, v in visemes.items()},
             jaw_bone=h.get("jaw_bone"),
             jaw_open=float(h.get("jaw_open", 18.0)),
+            jaw_axis=str(h.get("jaw_axis", "X")).upper(),
             aliases=[str(a) for a in (h.get("aliases") or [])],
         )
 

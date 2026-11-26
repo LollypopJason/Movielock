@@ -30,8 +30,9 @@ DEFAULTS: dict[str, Any] = {
     "writer": {
         "model": "claude-opus-5-5",
         "api_key_env": "ANTHROPIC_API_KEY",
-        "max_tokens": 4096,
-        "api_url": "https://api.anthropic.com/v1/messages",
+        "max_tokens": 16000,
+        "effort": "medium",           # low | medium | high | xhigh | max
+        "fallbacks": "default",       # server-side refusal fallback; set to false to turn off
         "repair_attempts": 1,
     },
     "timing": {
