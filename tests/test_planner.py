@@ -147,3 +147,14 @@ def test_loudness_and_text_cues():
     assert cues[-1]["end"] == pytest.approx(0.5)
     t = text_cues("Mamma mia", 1.0)
     assert t[0]["shape"] == "A" and t[-1]["shape"] == "X" and t[-1]["end"] == 1.0
+
+
+def test_cameras_keep_clear_of_other_actors():
+    actors = {"haze": {"position": [-1.4, 0, 0], "yaw": 90, "height": 1.72},
+              "inf": {"position": [1.4, 0, 0], "yaw": -90, "height": 1.9}}
+    for kind in ("medium", "closeup", "orbit", "dolly_in", "low_angle"):
+        for on in actors:
+            other = [a for n, a in actors.items() if n != on][0]["position"]
+            cam = compute_camera(kind, actors, on, None, 3, 16 / 9)
+            for k in cam["keys"]:
+                assert math.dist(k["pos"][:2], other[:2]) >= 0.85, (kind, on, k)

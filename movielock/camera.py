@@ -85,6 +85,41 @@ def _side_toward_audience(axis):
     return side
 
 
+def _rot(v, deg):
+    r = math.radians(deg)
+    c, s_ = math.cos(r), math.sin(r)
+    return (v[0] * c - v[1] * s_, v[0] * s_ + v[1] * c)
+
+
+def _seg_dist(p, a, b):
+    ab = _sub(b, a)
+    L2 = _dot(ab, ab)
+    t = 0.0 if L2 < 1e-12 else max(0.0, min(1.0, _dot(_sub(p, a), ab) / L2))
+    return _len(_sub(p, _add(a, ab, t)))
+
+
+def _clear(center, direction, dist, others, sweep=0.0):
+    """Rotate ``direction`` (up to +-75 deg) until the camera (and its sightline, and for an orbit
+    the whole arc of +-sweep/2 degrees) keeps clear of the other actors."""
+    if not others:
+        return direction
+    for step in (0, 10, -10, 20, -20, 30, -30, 45, -45, 60, -60, 75, -75):
+        d = _rot(direction, step)
+        angles = [0.0] if not sweep else [-sweep / 2 + sweep * i / 8 for i in range(9)]
+        ok = True
+        for ang in angles:
+            cam = _add(center, _rot(d, ang), dist)
+            for o in others:
+                if _len(_sub(cam, o)) < 0.9 or _seg_dist(o, cam, _add(center, _sub(cam, center), 0.25)) < 0.45:
+                    ok = False
+                    break
+            if not ok:
+                break
+        if ok:
+            return d
+    return direction
+
+
 def _pt(xy, z):
     return [round(xy[0], 4), round(xy[1], 4), round(z, 4)]
 
@@ -153,6 +188,9 @@ def compute_camera(kind: str, actors: dict, on: str | None, toward: str | None, 
 
     elif kind_eff in ("medium", "closeup", "low_angle", "orbit", "dolly_in"):
         d = _front(subj)
+        if kind_eff == "orbit":  # swing around the front, favouring the audience side
+            d = _norm(_add(facing_vector(subj["yaw"]), AUDIENCE, 2.0), fallback=d)
+        others = [_base(a) for n, a in actors.items() if n != subj_name]
         if kind_eff == "medium":
             lens, tz, hn, wn, cz = 40, 0.8, 0.62, 0.9, 0.82
         elif kind_eff == "closeup":
@@ -164,6 +202,7 @@ def compute_camera(kind: str, actors: dict, on: str | None, toward: str | None, 
         dist = _distance(lens, aspect, wn, hn * sh)
         target_z = sz + tz * sh
         cam_z = sz + 0.35 if cz is None else sz + cz * sh
+        d = _clear(sp, d, dist, others, sweep=50.0 if kind_eff == "orbit" else 0.0)
         if kind_eff == "orbit":
             base_ang = math.atan2(d[1], d[0])
             span = math.radians(50)
