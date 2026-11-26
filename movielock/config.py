@@ -38,7 +38,7 @@ DEFAULTS: dict[str, Any] = {
     "timing": {
         "gap": 0.25,                  # silence between consecutive lines
         "tail": 0.6,                  # hold after the last line of a shot
-        "lead": 0.3,                  # wait before the first line of a shot
+        "lead": 0.15,                 # wait before the first line of a shot
         "min_shot": 1.5,              # shots without lines last at least this long
         "words_per_second": 2.6,      # for caption-only lines (TTS off)
     },

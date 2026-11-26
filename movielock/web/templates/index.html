@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movielock</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>Movielock</h1>
+  <span class="tag">non-commercial fan tool, not affiliated with Valve</span>
+</header>
+
+<main>
+  <section class="col">
+    <div class="card">
+      <h2>1. Idea</h2>
+      <textarea id="idea" rows="3" placeholder="e.g. Haze and Infernus argue about who stole the last urn"></textarea>
+      <div class="row">
+        <label>Format
+          <select id="format">
+            <option value="">writer decides</option>
+            <option value="reel">reel 9:16</option>
+            <option value="video">video 16:9</option>
+            <option value="square">square 1:1</option>
+          </select>
+        </label>
+        <button id="write">Write script</button>
+        <span id="write-status" class="status"></span>
+      </div>
+      <p id="writer-notes" class="notes"></p>
+    </div>
+
+    <div class="card grow">
+      <h2>2. Script
+        <span class="seg" id="kind-seg">
+          <button data-kind="lockscript" class="on">Lockscript</button>
+          <button data-kind="yaml">YAML</button>
+        </span>
+      </h2>
+      <textarea id="script" class="code" spellcheck="false" rows="22"></textarea>
+      <div class="row">
+        <button id="validate">Validate</button>
+        <span id="validate-status" class="status"></span>
+      </div>
+      <ul id="issues"></ul>
+    </div>
+  </section>
+
+  <section class="col">
+    <div class="card">
+      <h2>3. Render</h2>
+      <div class="row">
+        <label>Quality
+          <select id="quality">
+            <option value="preview">preview</option>
+            <option value="draft">draft</option>
+            <option value="final">final</option>
+          </select>
+        </label>
+        <label>Renderer
+          <select id="renderer">
+            <option value="">auto</option>
+            <option value="storyboard">storyboard (no Blender)</option>
+            <option value="blender">Blender</option>
+          </select>
+        </label>
+        <button id="render" class="primary">Render</button>
+      </div>
+      <div class="progress"><div id="bar"></div></div>
+      <p id="render-status" class="status"></p>
+      <details><summary>log</summary><pre id="log"></pre></details>
+    </div>
+
+    <div class="card" id="result" hidden>
+      <h2>4. Video</h2>
+      <video id="player" controls playsinline></video>
+      <div class="row"><a id="download" class="button" href="#">Download MP4</a></div>
+      <ul id="render-warnings" class="small"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Library <input id="search" placeholder="search voice lines, heroes, sounds"></h2>
+      <p class="small">Click a voice line to insert it at the cursor.</p>
+      <div id="library" class="library"></div>
+    </div>
+  </section>
+</main>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

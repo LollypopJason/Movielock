@@ -1,0 +1,68 @@
+# Movielock settings. Every key is optional; these are the defaults.
+# Paths are relative to this file.
+
+paths:
+  assets: assets              # library.yaml + exported models/maps/sounds (models and sounds are NOT in git)
+  voices: assets/voices       # voice line files + index.yaml (built by tools/import_sounds.py)
+  renders: renders            # finished videos; renders/work/ holds plan.json, frames and clips
+  cache: .movielock_cache     # lip sync results, converted audio, TTS output
+
+tools:                        # program name on PATH, or a full path
+  blender: blender            # e.g. "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe"
+  rhubarb: rhubarb            # Rhubarb Lip Sync; without it a loudness-based fallback is used
+  ffmpeg: ffmpeg
+  ffprobe: ffprobe
+
+renderer: auto                # auto (Blender if found, else storyboard) | blender | storyboard
+
+writer:                       # AI script writer (needs: pip install anthropic, and an API key)
+  model: claude-opus-5-5
+  api_key_env: ANTHROPIC_API_KEY
+  effort: medium              # low | medium | high | xhigh | max
+  max_tokens: 16000
+  fallbacks: default          # if the model declines, the API retries on a fallback model; false = off
+  repair_attempts: 1          # invalid scripts are sent back with the errors this many times
+
+timing:
+  lead: 0.15                  # wait before the first line of a shot
+  gap: 0.25                   # silence between lines
+  tail: 0.6                   # hold after the last line of a shot
+  min_shot: 1.5               # length of shots without dialogue (unless a duration is given)
+  words_per_second: 2.6       # timing for caption-only lines when TTS is off
+
+audio:
+  sample_rate: 48000
+  voice_volume: 1.0
+  sfx_volume: 0.9
+  duck: true                  # lower the music while someone talks
+
+captions:
+  font: Arial
+  size: 0.045                 # fraction of the video height
+  outline: 3
+  speaker_names: true
+
+storyboard:
+  font_file: ""               # optional .ttf for the storyboard preview text
+
+quality:                      # scale = fraction of 1920x1080 / 1080x1920 / 1080x1080
+  preview: {scale: 0.5,  engine: eevee,  samples: 8,   crf: 28, preset: veryfast, motion_blur: false, denoise: false}
+  draft:   {scale: 0.75, engine: eevee,  samples: 32,  crf: 23, preset: veryfast, motion_blur: false, denoise: false}
+  final:   {scale: 1.0,  engine: cycles, samples: 256, crf: 18, preset: slow,     motion_blur: true,  denoise: true}
+
+tts:
+  enabled: false              # OFF by default: real in-game voice lines only
+  # Command run once per line without a shell. Placeholders: {text} {out} {hero} {ref}
+  # Example (Piper, reads text on stdin):
+  #   command: "piper --model voices/en_US-ryan-medium.onnx --output_file {out}"
+  #   stdin: true
+  command: ""
+  stdin: false
+  # {ref} = a clip of the hero's real voice, for voice-cloning engines. Leave this OFF.
+  # Cloning a voice actor's voice without their consent is legally risky; private experiments only.
+  voice_reference: false
+  references: {}
+
+web:
+  host: 127.0.0.1
+  port: 5005

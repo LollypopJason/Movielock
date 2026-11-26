@@ -108,7 +108,13 @@ def loudness_to_cues(env: list[float], window: float) -> list[Cue]:
             if cues[i - 1]["shape"] == cues[i + 1]["shape"] != c["shape"] and cues[i - 1]["shape"] != "X":
                 c = dict(c, shape=cues[i - 1]["shape"])
         smoothed.append(c)
-    return _merge(smoothed)
+    merged = _merge(smoothed)
+    # Short silences inside speech (between syllables) keep the mouth slightly open.
+    for i in range(1, len(merged) - 1):
+        c = merged[i]
+        if c["shape"] == "X" and c["end"] - c["start"] < 0.1:
+            merged[i] = dict(c, shape="B")
+    return _merge(merged)
 
 
 _VOWEL_SHAPES = {"a": "D", "e": "C", "i": "B", "o": "E", "u": "F", "y": "B"}

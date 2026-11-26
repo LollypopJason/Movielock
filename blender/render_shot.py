@@ -210,10 +210,10 @@ def placeholder_hero(name, hero, height):
     color = hex_to_rgba(hero.get("color"))
     mat = simple_material(f"{name}_mat", color, 0.5)
     dark = simple_material(f"{name}_mouth", (0.02, 0.02, 0.02, 1.0), 0.9)
-    body_h = height * 0.72
+    head_r = height * 0.11
+    body_h = height - 2 * head_r + head_r * 0.15  # neck overlaps the head slightly
     bpy.ops.mesh.primitive_cylinder_add(radius=height * 0.13, depth=body_h, location=(0, 0, body_h / 2))
     body = bpy.context.active_object
-    head_r = height * 0.11
     bpy.ops.mesh.primitive_uv_sphere_add(radius=head_r, location=(0, 0, height - head_r))
     head = bpy.context.active_object
     bpy.ops.mesh.primitive_cube_add(size=head_r * 0.35, location=(0, -head_r * 1.0, height - head_r * 0.85))
@@ -238,6 +238,9 @@ def find_action(name, preferred):
                 return a
         for a in pool:
             if a.name.lower() == low or a.name.lower().split("|")[-1] == low:
+                return a
+        for a in pool:  # glTF importer names actions "<animation>_<object>"
+            if a.name.lower().startswith(low + "_") or a.name.lower().startswith(low + "."):
                 return a
         for a in pool:
             if low in a.name.lower():

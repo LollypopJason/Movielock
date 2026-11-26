@@ -158,3 +158,13 @@ def test_cameras_keep_clear_of_other_actors():
             cam = compute_camera(kind, actors, on, None, 3, 16 / 9)
             for k in cam["keys"]:
                 assert math.dist(k["pos"][:2], other[:2]) >= 0.85, (kind, on, k)
+
+
+def test_loudness_cues_bridge_short_gaps():
+    w = 1 / 24
+    env = [0, 0.9, 0.9, 0.0, 0.9, 0.9, 0, 0, 0, 0, 0, 0.9, 0]  # 1-window gap, then a long pause
+    shapes = [c["shape"] for c in loudness_to_cues(env, w)]
+    assert shapes[0] == "X" and shapes[-1] == "X"
+    assert "X" in shapes[1:-1]  # the long pause still closes the mouth
+    first_gap = loudness_to_cues(env, w)[1:3]
+    assert all(c["shape"] != "X" for c in first_gap)
