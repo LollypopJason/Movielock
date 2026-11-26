@@ -43,7 +43,6 @@ DEFAULTS: dict[str, Any] = {
     },
     "audio": {
         "sample_rate": 48000,
-        "music_volume": 0.35,
         "duck": True,                 # lower the music under dialogue
         "voice_volume": 1.0,
         "sfx_volume": 0.9,

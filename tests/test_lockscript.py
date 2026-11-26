@@ -18,6 +18,7 @@ SHOT wide on=haze 3s
 SHOT closeup on=inf toward=haze id=reply duration=2.5
   inf ! inf_line_02 @0.5 "He said \\"hi\\""
   inf ~ taunt @ 1 once
+  haze ~ walk loop
 '''
 
 

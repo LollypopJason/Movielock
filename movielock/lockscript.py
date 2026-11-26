@@ -418,7 +418,8 @@ def _event_line(ev: dict) -> str:
     at = f" @{_fmt_num(ev['at'])}" if ev.get("at") is not None else ""
     kind = ev["type"]
     if kind == "anim":
-        return f"{ev['actor']} ~ {ev['anim']}{at}{' once' if ev.get('once') else ''}"
+        mode = {True: " once", False: " loop"}.get(ev.get("once"), "")
+        return f"{ev['actor']} ~ {ev['anim']}{at}{mode}"
     if kind == "voice":
         cap = f" {_quote(ev['caption'])}" if ev.get("caption") is not None else ""
         return f"{ev['actor']} ! {ev['line']}{at}{cap}"
