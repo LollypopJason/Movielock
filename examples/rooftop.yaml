@@ -1,0 +1,70 @@
+# The same script as rooftop.lock, in the YAML form.
+movielock: 1
+format: reel
+fps: 30
+map: rooftop_night
+captions: true
+title: Rooftop Standoff
+music:
+  id: tense_loop
+  volume: 0.35
+cast:
+- name: haze
+  hero: haze
+  position:
+  - -1.5
+  - 0
+  faces: inf
+- name: inf
+  hero: infernus
+  position:
+  - 1.5
+  - 0
+  faces: haze
+shots:
+- camera: wide
+  'on': haze
+  id: open
+  duration: 3
+  events:
+  - type: anim
+    actor: haze
+    anim: idle
+  - type: voice
+    actor: haze
+    line: haze_taunt_01
+  - type: sfx
+    sound: whoosh
+    at: 0.2
+    volume: 0.6
+- camera: over_shoulder
+  'on': inf
+  toward: haze
+  events:
+  - type: tts
+    actor: inf
+    text: You talk too much.
+  - type: anim
+    actor: inf
+    anim: point
+    at: 0.4
+    once: true
+- camera: closeup
+  'on': haze
+  events:
+  - type: voice
+    actor: haze
+    line: haze_laugh_01
+    caption: Then stop listening.
+  - type: sfx
+    sound: explosion_small
+    at: 1.2
+    volume: 0.7
+- camera: orbit
+  'on': inf
+  duration: 2.5
+  events:
+  - type: anim
+    actor: inf
+    anim: taunt
+    once: true

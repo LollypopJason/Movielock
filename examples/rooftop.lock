@@ -1,0 +1,22 @@
+# Rooftop Standoff: two heroes, one rooftop, too much talking.
+MOVIELOCK reel 30fps map=rooftop_night captions=on
+TITLE Rooftop Standoff
+MUSIC tense_loop vol=0.35
+CAST haze = haze @ -1.5,0 > inf        # name = hero @ x,y[,z] > faces
+CAST inf  = infernus @ 1.5,0 > haze
+
+SHOT wide on=haze id=open 3s
+  haze ~ idle
+  haze ! haze_taunt_01
+  * whoosh @0.2 vol=0.6
+
+SHOT over_shoulder on=inf toward=haze
+  inf ? "You talk too much."
+  inf ~ point @0.4 once
+
+SHOT closeup on=haze
+  haze ! haze_laugh_01 "Then stop listening."
+  * explosion_small @1.2 vol=0.7
+
+SHOT orbit on=inf 2.5s
+  inf ~ taunt once

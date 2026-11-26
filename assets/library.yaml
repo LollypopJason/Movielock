@@ -1,0 +1,106 @@
+# Movielock asset library. Data only: add heroes, maps and sounds here, no code changes needed.
+#
+# All paths are relative to this folder (assets/). The files they point to are NOT in git:
+# you export them from your own Deadlock install (see docs/ASSETS.md) and drop them in place.
+#
+# Hero fields
+#   name        display name (used in captions and by the AI writer)
+#   model       glTF/GLB exported with Source 2 Viewer
+#   scale       multiply the imported model (Source units are inches; VRF usually exports metres)
+#   height      approximate height in metres: the cameras aim at faces using this
+#   yaw_offset  degrees added so the model faces -Y at yaw 0 (try 0, 90, 180, -90)
+#   color       storyboard panel colour
+#   aliases     other names (game class names, sound folder names) used by tools/import_sounds.py
+#   animations  our name -> glTF action name (string) or {action, loop, length, speed}
+#               "idle" and "talk" are used automatically; others are used with "name ~ anim"
+#   visemes     Rhubarb mouth shape (A-H, X) -> shape key name, list of names, or {name: weight}
+#   jaw_bone    fallback when the model has no mouth shape keys: this bone is rotated to open the jaw
+#   jaw_open    jaw rotation in degrees for a fully open mouth (D)
+#
+# The action names below are placeholders: open your exported model in Blender, look at the
+# Action list (Dope Sheet > Action Editor) and put the real names here.
+
+defaults:
+  animations: &anims
+    idle: {action: idle, loop: true}
+    talk: {action: talk, loop: true}
+    walk: {action: walk, loop: true}
+    run: {action: run, loop: true}
+    wave: {action: wave, loop: false}
+    point: {action: point, loop: false}
+    taunt: {action: taunt, loop: false}
+    laugh: {action: laugh, loop: false}
+    celebrate: {action: celebrate, loop: false}
+    shoot: {action: shoot, loop: false}
+    hit: {action: hit_react, loop: false}
+    death: {action: death, loop: false}
+  visemes: &visemes
+    A: mouth_closed        # M, B, P
+    B: mouth_teeth         # K, S, T, EE
+    C: mouth_open          # EH, AE
+    D: mouth_wide          # AA
+    E: mouth_round         # AO, ER
+    F: mouth_pucker        # UW, OW, W
+    G: mouth_fv            # F, V
+    H: mouth_l             # L
+    X: mouth_rest          # silence
+
+heroes:
+  abrams:    {name: Abrams,     model: heroes/abrams/abrams.glb,       height: 2.05, color: "#9c5b3b", aliases: [hero_atlas, atlas],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  bebop:     {name: Bebop,      model: heroes/bebop/bebop.glb,         height: 2.10, color: "#c9a227", aliases: [hero_bebop],             animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  dynamo:    {name: Dynamo,     model: heroes/dynamo/dynamo.glb,       height: 1.85, color: "#5867c4", aliases: [hero_dynamo],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  grey_talon: {name: Grey Talon, model: heroes/grey_talon/grey_talon.glb, height: 1.85, color: "#4f7b6b", aliases: [hero_orion, orion, greytalon], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  haze:      {name: Haze,       model: heroes/haze/haze.glb,           height: 1.72, color: "#7b5ea7", aliases: [hero_haze],              animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  infernus:  {name: Infernus,   model: heroes/infernus/infernus.glb,   height: 1.90, color: "#d2552b", aliases: [hero_inferno, inferno],  animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  ivy:       {name: Ivy,        model: heroes/ivy/ivy.glb,             height: 1.60, color: "#6fae4a", aliases: [hero_tengu, tengu],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  kelvin:    {name: Kelvin,     model: heroes/kelvin/kelvin.glb,       height: 1.95, color: "#5fb3d9", aliases: [hero_kelvin],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  lady_geist: {name: Lady Geist, model: heroes/lady_geist/lady_geist.glb, height: 1.78, color: "#a83a5b", aliases: [hero_ghost, ghost, geist], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  lash:      {name: Lash,       model: heroes/lash/lash.glb,           height: 1.88, color: "#8a6d3b", aliases: [hero_lash],              animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  mcginnis:  {name: McGinnis,   model: heroes/mcginnis/mcginnis.glb,   height: 1.70, color: "#b07a3f", aliases: [hero_forge, forge],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  mirage:    {name: Mirage,     model: heroes/mirage/mirage.glb,       height: 1.86, color: "#c98b4a", aliases: [hero_mirage],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  paradox:   {name: Paradox,    model: heroes/paradox/paradox.glb,     height: 1.75, color: "#7d3fa0", aliases: [hero_chrono, chrono],    animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  pocket:    {name: Pocket,     model: heroes/pocket/pocket.glb,       height: 1.50, color: "#3f6fb0", aliases: [hero_synth, synth],      animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  seven:     {name: Seven,      model: heroes/seven/seven.glb,         height: 1.90, color: "#3fb0a0", aliases: [hero_gigawatt, gigawatt], animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  shiv:      {name: Shiv,       model: heroes/shiv/shiv.glb,           height: 1.85, color: "#b03f3f", aliases: [hero_shiv],              animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  vindicta:  {name: Vindicta,   model: heroes/vindicta/vindicta.glb,   height: 1.78, color: "#4a4a6a", aliases: [hero_hornet, hornet],    animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  viscous:   {name: Viscous,    model: heroes/viscous/viscous.glb,     height: 1.60, color: "#5fc46f", aliases: [hero_viscous],           animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  warden:    {name: Warden,     model: heroes/warden/warden.glb,       height: 1.92, color: "#6b6b8a", aliases: [hero_warden],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  wraith:    {name: Wraith,     model: heroes/wraith/wraith.glb,       height: 1.76, color: "#5a3f7d", aliases: [hero_wraith],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  yamato:    {name: Yamato,     model: heroes/yamato/yamato.glb,       height: 1.65, color: "#c4485a", aliases: [hero_yamato],            animations: *anims, visemes: *visemes, jaw_bone: jaw}
+  # Add more heroes the same way. Class names (aliases) are what the game uses internally;
+  # if the importer doesn't recognise a sound folder, add the folder name to aliases.
+
+maps:
+  studio:
+    name: Studio (no map model)
+    sky_color: "#1c1f26"
+    ground: true
+  rooftop_night:
+    name: Rooftop at night
+    model: maps/rooftop_night/rooftop.glb
+    hdri: hdri/night_city.exr
+    sky_color: "#0b1020"
+    hdri_strength: 0.6
+  street_day:
+    name: City street, day
+    model: maps/street_day/street.glb
+    hdri: hdri/overcast.exr
+    sky_color: "#9fb4c8"
+  base_interior:
+    name: Patron base interior
+    model: maps/base_interior/base.glb
+    sky_color: "#2a2420"
+    hdri_strength: 0.3
+
+sounds:
+  explosion_small: {file: sfx/explosion_small.wav, volume: 0.9, description: short explosion}
+  gunshot:         {file: sfx/gunshot.wav, description: single shot}
+  whoosh:          {file: sfx/whoosh.wav, description: fast movement}
+  impact:          {file: sfx/impact.wav, description: heavy hit}
+  footsteps:       {file: sfx/footsteps.wav, description: a few footsteps}
+  ui_ping:         {file: sfx/ui_ping.wav, description: map ping}
+
+music:
+  tense_loop:   {file: music/tense_loop.ogg, volume: 0.35, description: tense standoff}
+  upbeat_loop:  {file: music/upbeat_loop.ogg, volume: 0.3, description: light, comedic}
+  victory:      {file: music/victory.ogg, volume: 0.4, description: triumphant}

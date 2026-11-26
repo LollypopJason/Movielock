@@ -1,0 +1,5 @@
+# Voice line index. Rebuild it from your exported sounds with:
+#   python tools/import_sounds.py <folder-with-hero-subfolders>
+# Each entry: id (used in scripts as  name ! id), hero (library.yaml id),
+# file (relative to this folder), transcript (shown as caption, used by the AI writer).
+voices: []

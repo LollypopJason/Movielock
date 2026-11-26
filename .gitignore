@@ -1,0 +1,41 @@
+# --- Game assets: NEVER commit models, textures, maps or sounds exported from Deadlock ---
+assets/heroes/
+assets/maps/
+assets/hdri/
+assets/sfx/
+assets/music/
+assets/voices/*
+!assets/voices/index.yaml
+!assets/voices/README.md
+*.glb
+*.gltf
+*.fbx
+*.vmdl_c
+*.vsnd_c
+*.vpk
+*.exr
+*.hdr
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.m4a
+
+# --- Generated output ---
+renders/
+.movielock_cache/
+demo/
+*.mp4
+*.mov
+*.png
+!docs/*.png
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+build/
+dist/

@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "movielock"
+version = "0.1.0"
+description = "Turn a short script into a 3D video of Deadlock heroes (non-commercial fan tool)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = ["pyyaml>=6", "jsonschema>=4.18", "flask>=3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+movielock = "movielock.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["movielock*"]
+
+[tool.setuptools.package-data]
+movielock = ["data/*.json", "web/templates/*.html", "web/static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
